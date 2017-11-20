@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:gravity="center_vertical"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="vertical"
+    android:background="@drawable/border"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/nomeInstrumento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Instrumento"
+        android:textColor="#333"
+        android:textSize="20sp"
+
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/marcaInstrumento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subtitulo"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imgInstrumento"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerInside"
+        android:contentDescription="TODO" />
+
+
+        <TextView
+            android:id="@+id/valorInstrumento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 1.000,00"
+            android:textColor="#388E3C"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+</LinearLayout>
