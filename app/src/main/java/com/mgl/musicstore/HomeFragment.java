@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
@@ -65,7 +67,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.lvNews);
+        listView.setAdapter(new HomeAdapter(getActivity()));
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,7 +87,7 @@ public class HomeFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Home Fragment Attach", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Home Fragment Attach", Toast.LENGTH_SHORT).show();
 
         }
     }

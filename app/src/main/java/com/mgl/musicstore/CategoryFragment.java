@@ -87,7 +87,7 @@ public class CategoryFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "Category Fragment Attach", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Category Fragment Attach", Toast.LENGTH_SHORT).show();
 
         }
     }
