@@ -12,6 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,7 +90,35 @@ public class InstrumentFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_instrument, container, false);
 
         gridView = (GridView) rootView.findViewById(R.id.gridview);
-        gridView.setAdapter(new InstrumentAdapter(getActivity()));
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.3.2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        InstrumentService service = retrofit.create(InstrumentService.class);
+
+        Call<List<Instrument>> instrumentCall = service.getAll();
+
+        instrumentCall.enqueue(new Callback<List<Instrument>>() {
+            @Override
+            public void onResponse(Call<List<Instrument>> call, Response<List<Instrument>> response) {
+                if (response.isSuccessful()) {
+                    List<Instrument> list = response.body();
+                    gridView.setAdapter(new InstrumentAdapter(getActivity(), list));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Instrument>> call, Throwable t) {
+                System.out.println(t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

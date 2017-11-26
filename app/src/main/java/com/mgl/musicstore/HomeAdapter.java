@@ -9,11 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Created by Migs on 20/11/2017.
  */
 
 public class HomeAdapter extends BaseAdapter {
+    private List<Instrument> instrument;
     protected Context context;
     private String[] news = {
             "Violão Folk Hofma HMF 250 Mahogany Fosco, Cordas de Aço, Elétrico e com Afinador",
@@ -36,12 +40,12 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return thumbsId.length;
+        return instrument.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return thumbsId[i];
+        return instrument.get(i);
     }
 
     @Override
@@ -49,8 +53,9 @@ public class HomeAdapter extends BaseAdapter {
         return i;
     }
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, List<Instrument> instrument) {
         this.context = context;
+        this.instrument = instrument;
     }
 
     @Override
@@ -64,9 +69,9 @@ public class HomeAdapter extends BaseAdapter {
             ImageView imageView = (ImageView) listView.findViewById(R.id.homeImg);
             imageView.setImageResource(thumbsId[i]);
             TextView homeTitle = (TextView) listView.findViewById(R.id.homeTitle);
-            homeTitle.setText(news[i]);
+            homeTitle.setText(String.format("%s %s - %s",instrument.get(i).getModelo(), instrument.get(i).getMarca(), instrument.get(i).getCor()));
             TextView desc = (TextView) listView.findViewById(R.id.homeDesc);
-            desc.setText(price[i]);
+            desc.setText(String.format(new Locale("pt", "BR"), "R$ %,.2f", instrument.get(i).getPreco()));
         } else {
             listView = (View) view;
         }

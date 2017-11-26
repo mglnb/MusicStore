@@ -11,6 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +37,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private ListView listView;
     private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
@@ -69,8 +77,33 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.lvNews);
-        listView.setAdapter(new HomeAdapter(getActivity()));
+        listView = (ListView) view.findViewById(R.id.lvNews);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.3.2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        InstrumentService service = retrofit.create(InstrumentService.class);
+
+        Call<List<Instrument>> instrumentCall = service.getAll();
+
+        instrumentCall.enqueue(new Callback<List<Instrument>>() {
+            @Override
+            public void onResponse(Call<List<Instrument>> call, Response<List<Instrument>> response) {
+                if(response.isSuccessful()) {
+                    List<Instrument> list = response.body();
+                    listView.setAdapter(new HomeAdapter(getActivity(), list));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Instrument>> call, Throwable t) {
+
+            }
+        });
+
         return view;
     }
 
