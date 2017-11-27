@@ -40,12 +40,12 @@ class InstrumentAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return instrument.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override

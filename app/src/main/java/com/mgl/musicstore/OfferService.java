@@ -21,5 +21,5 @@ public interface OfferService {
     Call<Offer> save(@Field("nome") String nome,
                                    @Field("email") String email,
                                    @Field("telefone") String telefone,
-                                   @Field("instrumento_id") int preco);
+                                   @Field("instrumento_id") int instrumento_id);
 }
