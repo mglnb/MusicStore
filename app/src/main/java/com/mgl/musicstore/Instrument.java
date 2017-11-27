@@ -4,7 +4,7 @@ package com.mgl.musicstore;
  * Created by Miguel on 25/11/2017.
  */
 
-class Instrument {
+public class Instrument {
 
     private int id;
     private String modelo;

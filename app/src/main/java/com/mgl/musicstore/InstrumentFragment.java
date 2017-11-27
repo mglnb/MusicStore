@@ -1,8 +1,10 @@
 package com.mgl.musicstore;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.mgl.musicstore.bd.InstrumentController;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -102,9 +107,31 @@ public class InstrumentFragment extends Fragment {
 
         instrumentCall.enqueue(new Callback<List<Instrument>>() {
             @Override
-            public void onResponse(Call<List<Instrument>> call, Response<List<Instrument>> response) {
+            public void onResponse(@NonNull Call<List<Instrument>> call, @NonNull Response<List<Instrument>> response) {
                 if (response.isSuccessful()) {
                     List<Instrument> list = response.body();
+
+                    InstrumentController instrumentController = new InstrumentController(getActivity());
+                    for (Instrument instrument : list) {
+                        if (instrumentController.findById(instrument.getId()) == null) {
+                            instrumentController.save(instrument);
+                        }
+                    }
+                    Cursor cursor = instrumentController.getAll();
+                    //  public Instrument(int id, String modelo, String marca, String cor, String categoria, double preco) {
+                    list = new ArrayList<>();
+
+                    while (cursor.moveToNext()) {
+                        list.add(new Instrument(
+                                cursor.getColumnIndex("_id"),
+                                cursor.getString(cursor.getColumnIndex("modelo")),
+                                cursor.getString(cursor.getColumnIndex("marca")),
+                                cursor.getString(cursor.getColumnIndex("cor")),
+                                cursor.getString(cursor.getColumnIndex("categoria")),
+                                cursor.getDouble(cursor.getColumnIndex("preco"))
+                                ));
+                    }
+
                     gridView.setAdapter(new InstrumentAdapter(getActivity(), list));
 
                 }
@@ -116,7 +143,6 @@ public class InstrumentFragment extends Fragment {
                 t.printStackTrace();
             }
         });
-
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -4,7 +4,7 @@ package com.mgl.musicstore;
  * Created by Miguel on 25/11/2017.
  */
 
-class Offer {
+public class Offer {
     private int id;
     private String nome;
     private String email;
