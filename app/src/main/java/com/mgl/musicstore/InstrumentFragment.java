@@ -1,6 +1,7 @@
 package com.mgl.musicstore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -103,7 +104,7 @@ public class InstrumentFragment extends Fragment {
 
         InstrumentService service = retrofit.create(InstrumentService.class);
 
-        Call<List<Instrument>> instrumentCall = service.getAll();
+        final Call<List<Instrument>> instrumentCall = service.getAll();
 
         instrumentCall.enqueue(new Callback<List<Instrument>>() {
             @Override
@@ -148,7 +149,15 @@ public class InstrumentFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "Touch", Toast.LENGTH_SHORT).show();
+                Instrument instrument = (Instrument) adapterView.getItemAtPosition(i);
+
+                Intent it = new Intent(getActivity(), OfferActivity.class);
+                it.putExtra("id", instrument.getId());
+                it.putExtra("modelo", instrument.getModelo());
+                it.putExtra("marca", instrument.getMarca());
+                it.putExtra("preco", instrument.getPreco());
+                it.putExtra("cor", instrument.getCor());
+                startActivity(it);
             }
         });
 
